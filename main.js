@@ -1,4 +1,4 @@
-let goal, wins = 0, loses = 0, numbers=[], workArea = "";
+let goal, wins = 0, loses = 0, numbers=[], workArea = "",calc="";
 
 function newGame() {
     const amount = 4;
@@ -12,6 +12,13 @@ function newGame() {
     setNumbers(numbers);
     document.getElementById("workArea").innerText = workArea;
 
+
+    //Remove all the li from calc
+    var calc = document.getElementById("calc");
+    while (calc.hasChildNodes()) {
+        calc.removeChild(calc.firstChild);
+    }
+    
     // Reset all buttons
     if(wins!==0 || loses!==0){
 
@@ -70,9 +77,12 @@ function Remove(){
 }
 function chooseNumber(index, operator) {
     let result;
+    
     let parts = workArea.split(operator);
     let left = parseInt(parts[0]);
     let right = parseInt(parts[1]);
+    //calc=workArea;
+    calc = `${left} ${operator} ${right}`;
 
     switch(operator) {
         case '+':
@@ -108,7 +118,9 @@ function chooseNumber(index, operator) {
     document.getElementById(`btn${numbers.length+1}`).style.display = 'none';
     document.getElementById("numbers").innerText = numbers.join(", ");
     document.getElementById("workArea").innerText= '';
-    
+    var li = document.createElement("li");
+    li.innerText = calc+" = "+result;
+    document.getElementById("calc").appendChild(li);
     if (result === goal) {
         wins++;
         document.getElementById("wins").innerText = wins;
