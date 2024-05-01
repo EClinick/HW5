@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Magic Math</title>
+</head>
+<body>
+    <h1>Magic Math</h1>
+    <p>Goal: <span id="goal"></span></p>
+    <p>Wins: <span id="wins">0</span></p>
+    <p>Loses: <span id="loses">0</span></p>
+    <p>Numbers: <span id="numbers"></span></p>
+    <button id="btn1" onclick="Number('btn1')">1</button>
+    <button id="btn2" onclick="Number('btn2')">1</button>
+    <button id="btn3" onclick="Number('btn3')">1</button>
+    <button id="btn4" onclick="Number('btn4')">1</button>
+    <p>Operators: +, -, *</p>
+
+    <button onclick="Addition()">+</button>
+    <button onclick="Subtraction()">-</button>
+    <button onclick="Multiplication()">*</button>
+    <button onclick="Equals()">=</button>
+    <button onclick="Remove()">Backspace</button>
+    <p>Work Area: <span id="workArea"></span></p>
+
+
+    <button onclick="newGame()">New Game</button>
+    <script src="main.js"></script>
+</body>
+</html>
