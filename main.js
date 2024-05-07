@@ -2,7 +2,7 @@ let goal, wins = 0, loses = 0, numbers=[], workArea = "", calc="";
 
 function newGame() {
     const amount = 4;
-    goal = Math.floor(Math.random() * 10) + 1;
+    goal = Math.floor(Math.random() * 1000) + 1;
     workArea = "";
     document.getElementById("goal").innerText = goal;
     for(let i = 0; i < amount; i++){
