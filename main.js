@@ -1,4 +1,4 @@
-let goal, wins = 0, loses = 0, numbers=[], workArea = "",calc="";
+let goal, wins = 0, loses = 0, numbers=[], workArea = "", calc="";
 
 function newGame() {
     const amount = 4;
@@ -12,55 +12,54 @@ function newGame() {
     setNumbers(numbers);
     document.getElementById("workArea").innerText = workArea;
 
-
-    //Remove all the li from calc
+    // Remove all the li from calc
     var calc = document.getElementById("calc");
     while (calc.hasChildNodes()) {
         calc.removeChild(calc.firstChild);
     }
-    
-    // Reset all buttons
-    if(wins!==0 || loses!==0){
 
+    // Reset all buttons
+    if(wins !== 0 || loses !== 0){
         for(let i = 1; i <= amount; i++){
             let btn = document.getElementById("btn" + i);
             btn.style.display = 'inline'; // make the button visible
             btn.innerText = ''; // clear the button text
+            btn.disabled = false; // enable the button
         }
         setNumbers(numbers);
     }
 }
+
 function setNumbers(numbers){
-    total=numbers.length;
-    
+    let total = numbers.length;
     for(let i = 1; i <= total; i++){
         document.getElementById("btn" + i).innerText = numbers[i - 1];
-        
     }
 }
-
 
 function Number(btn){
     workArea += document.getElementById(btn).innerText;
     document.getElementById("workArea").innerText = workArea;
+    document.getElementById(btn).disabled = true; // disable the button after it's clicked
 }
+
 function Addition(){
     workArea += "+";
     document.getElementById("workArea").innerText = workArea;
 }
+
 function Subtraction(){
     workArea += "-";
     document.getElementById("workArea").innerText = workArea;
-
 }
+
 function Equals(){
     if (workArea.includes("+")) {
-        chooseNumber(0, "+");
+        chooseNumber("+");
     } else if (workArea.includes("-")) {
-        chooseNumber(0, "-");
-
+        chooseNumber("-");
     } else if (workArea.includes("*")) {
-        chooseNumber(0, "*");
+        chooseNumber("*");
     }
 
 }
@@ -69,19 +68,20 @@ function Multiplication(){
     workArea += "*";
     document.getElementById("workArea").innerText = workArea;
 }
+
 function Remove(){
     if(workArea.length > 0) {
-        workArea = workArea.substring(0, workArea.length - 1); // removes the last character from a string
+        workArea = workArea.substring(0, workArea.length - 1);
     }
     document.getElementById("workArea").innerText = workArea;
 }
-function chooseNumber(index, operator) {
+
+function chooseNumber(operator) {
     let result;
-    
     let parts = workArea.split(operator);
     let left = parseInt(parts[0]);
     let right = parseInt(parts[1]);
-    //calc=workArea;
+
     calc = `${left} ${operator} ${right}`;
 
     switch(operator) {
@@ -96,21 +96,34 @@ function chooseNumber(index, operator) {
             break;
     }
 
+    // Check for NaN and halt updates if result is not a number
+    if(isNaN(result)) {
+        workArea = "";
+        document.getElementById("workArea").innerText = workArea;
+        return; // Exit function to prevent further updates
+    }
+
+    // Continue with operations as usual
     workArea = result.toString();
-    let firstNumberIndex = numbers.indexOf(left); // find the index of the first number
+    updateNumbers(left, right, result);
+    displayResult(result, operator);
+}
+
+function updateNumbers(left, right, result) {
+    let firstNumberIndex = numbers.indexOf(left);
     if (firstNumberIndex !== -1) {
-        numbers.splice(firstNumberIndex, 1); // remove the first number
-        
+        numbers.splice(firstNumberIndex, 1);
+        document.getElementById(`btn${firstNumberIndex+1}`).disabled = false; 
     }
 
-    let secondNumberIndex = numbers.indexOf(right); // find the index of the second number
+    let secondNumberIndex = numbers.indexOf(right);
     if (secondNumberIndex !== -1) {
-        numbers.splice(secondNumberIndex, 1); // remove the second number
+        numbers.splice(secondNumberIndex, 1);
+        document.getElementById(`btn${secondNumberIndex+1}`).disabled = false; 
     }
 
-    numbers.push(result); // add the result to the numbers array
+    numbers.push(result);
 
-    // update the buttons
     for(let i = 0; i < numbers.length; i++){
         document.getElementById(`btn${i+1}`).innerText = numbers[i];
     }
@@ -118,9 +131,13 @@ function chooseNumber(index, operator) {
     document.getElementById(`btn${numbers.length+1}`).style.display = 'none';
     document.getElementById("numbers").innerText = numbers.join(", ");
     document.getElementById("workArea").innerText= '';
+}
+
+function displayResult(result, operator) {
     var li = document.createElement("li");
-    li.innerText = calc+" = "+result;
+    li.innerText = calc + " = " + result;
     document.getElementById("calc").appendChild(li);
+
     if (result === goal) {
         wins++;
         document.getElementById("wins").innerText = wins;
@@ -132,7 +149,7 @@ function chooseNumber(index, operator) {
         document.getElementById("loses").animate([{opacity: 0}, {opacity: 1}], {duration: 1000, iterations: 1});
         newGame();
     }
-    workArea="";
+    workArea = "";
 }
 
 newGame();
