@@ -1,4 +1,18 @@
 let goal, wins = 0, loses = 0, numbers=[], workArea = "", calc="";
+/*
+Name: Ethan Clinick, Jordan Cowan, Kai 
+Date: 10/14/2021
+Description: This is a math game where the user is given a goal number and a set of numbers. The user must use the set of numbers to reach the goal number. The user can use addition, subtraction, and multiplication to reach the goal number. The user can also remove numbers from the work area if they make a mistake. The user can also start a new game at any time. The user can also see their wins and loses.
+Preconditions: The user must have a browser that supports HTML, CSS, and JavaScript.
+Postconditions: The user will have a fun time playing a math game.
+*/
+
+/*
+* Function: newGame
+* Description: This function will start a new game. It will generate a new goal number and a new set of numbers. It will also reset the work area and the calc area.
+* Parameters: None
+* Returns: None
+*/
 
 function newGame() {
     const amount = 4;
@@ -29,29 +43,56 @@ function newGame() {
         setNumbers(numbers);
     }
 }
-
+/*
+* Function: setNumbers
+* Description: This function will set the numbers on the buttons.
+* Parameters: numbers
+* Returns: None
+*/
 function setNumbers(numbers){
     let total = numbers.length;
     for(let i = 1; i <= total; i++){
         document.getElementById("btn" + i).innerText = numbers[i - 1];
     }
 }
-
+/*
+* Function: Number
+* Description: This function will add the number to the work area.
+* Parameters: btn
+* Returns: None
+*/
 function Number(btn){
     workArea += document.getElementById(btn).innerText;
     document.getElementById("workArea").innerText = workArea;
     document.getElementById(btn).disabled = true; // disable the button after it's clicked
 }
-
+/*
+* Function: Addition
+* Description: This function will add the addition operator to the work area.
+* Parameters: None
+* Returns: None
+*/
 function Addition(){
     workArea += "+";
     document.getElementById("workArea").innerText = workArea;
 }
+/*
+* Function: Subtraction
+* Description: This function will add the subtraction operator to the work area.
+* Parameters: None
+* Returns: None
+*/
 
 function Subtraction(){
     workArea += "-";
     document.getElementById("workArea").innerText = workArea;
 }
+/*
+* Function: Equals
+* Description: This function will check if the work area includes an operator. If it does, it will call the chooseNumber function.
+* Parameters: None
+* Returns: None
+*/
 
 function Equals(){
     if (workArea.includes("+")) {
@@ -63,11 +104,23 @@ function Equals(){
     }
 
 }
+/*
+* Function: Multiplication
+* Description: This function will add the multiplication operator to the work area.
+* Parameters: None
+* Returns: None
+*/
 
 function Multiplication(){
     workArea += "*";
     document.getElementById("workArea").innerText = workArea;
 }
+/*
+* Function: Remove
+* Description: This function will remove the last number from the work area.
+* Parameters: None
+* Returns: None
+*/
 
 function Remove(){
     if(workArea.length > 0) {
@@ -75,6 +128,13 @@ function Remove(){
     }
     document.getElementById("workArea").innerText = workArea;
 }
+
+/*
+* Function: chooseNumber
+* Description: This function will choose the number based on the operator.
+* Parameters: operator
+* Returns: None
+*/
 
 function chooseNumber(operator) {
     let result;
@@ -109,6 +169,12 @@ function chooseNumber(operator) {
     displayResult(result, operator);
 }
 
+/*
+* Function: updateNumbers
+* Description: This function will update the numbers array.
+* Parameters: left, right, result
+* Returns: None
+*/
 function updateNumbers(left, right, result) {
     let firstNumberIndex = numbers.indexOf(left);
     if (firstNumberIndex !== -1) {
@@ -132,6 +198,12 @@ function updateNumbers(left, right, result) {
     document.getElementById("numbers").innerText = numbers.join(", ");
     document.getElementById("workArea").innerText= '';
 }
+/*
+* Function: displayResult
+* Description: This function will display the result of the calculation.
+* Parameters: result, operator
+* Returns: None
+*/
 
 function displayResult(result, operator) {
     var li = document.createElement("li");
